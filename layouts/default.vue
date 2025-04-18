@@ -1,7 +1,7 @@
 <template>
     <header>
         <nav>
-            <ul>
+            <ul class="horizontal-list">
                 <li>
                     <NuxtLink to="/">Home</NuxtLink>
                 </li>
@@ -21,8 +21,17 @@
      </div>
 </template>
 
-<style scoped>
+<style>
     .router-link-exact-active {
         color: #12b488;
+    }
+
+    .horizontal-list {
+        list-style: none;
+        display: inline-flex;
+
+        li {
+            margin-right: .5rem;
+        }
     }
 </style>
