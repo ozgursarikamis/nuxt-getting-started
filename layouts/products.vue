@@ -35,4 +35,10 @@
 .router-link-exact-active {
     color: #12b488;
 }
+header {
+    margin-bottom: 1rem;
+}
+footer {
+    margin-top: 10rem;
+}
 </style>

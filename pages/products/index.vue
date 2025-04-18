@@ -12,3 +12,9 @@
         </li>
     </ul>
 </template>
+
+<script setup>
+    definePageMeta({
+        layout: 'products'
+    });
+</script>
