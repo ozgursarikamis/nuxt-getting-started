@@ -1,20 +1,15 @@
 <template>
     <h1>Products</h1>
-    <ul class="horizontal-list">
-        <li>
-            <NuxtLink to="/products/1">Product 1</NuxtLink>
-        </li>
-        <li>
-            <NuxtLink to="/products/2">Product 2</NuxtLink>
-        </li>
-        <li>
-            <NuxtLink to="/products/3">Product 3</NuxtLink>
-        </li>
-    </ul>
+    <div v-for="product in products">
+        <NuxtLink :to="`/products/${product.id}`">{{ product.title }}</NuxtLink>
+    </div>
 </template>
 
 <script setup>
-    definePageMeta({
-        layout: 'products'
-    });
+definePageMeta({
+    layout: 'products'
+});
+
+// fetch:
+const { data: products } = await useFetch('https://fakestoreapi.com/products');
 </script>
