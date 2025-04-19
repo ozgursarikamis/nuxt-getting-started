@@ -12,4 +12,11 @@ definePageMeta({
 
 // fetch:
 const { data: products } = await useFetch('https://fakestoreapi.com/products');
+
+useHead({ // override what's declared in nuxt.config.js
+    title: `Priducts | Nuxt Dojo`,
+    meta: [
+        { name: 'description', content: 'Nuxt 3 Merch' }
+    ]
+});
 </script>

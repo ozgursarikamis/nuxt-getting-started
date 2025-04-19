@@ -17,7 +17,7 @@
         <template #footer>
             <Placeholder class="h-8" />
         </template>
-    </UCard>qq
+    </UCard>
 </template>
 
 <script setup>
