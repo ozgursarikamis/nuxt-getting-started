@@ -1,4 +1,7 @@
 <template>
+    <Head>
+        <Title>Nuxt Dojo | {{  product.title }}</Title>
+    </Head>
     <h1>
         {{  product.title }}
     </h1>
