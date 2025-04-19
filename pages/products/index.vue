@@ -1,7 +1,7 @@
 <template>
     <h1>Products</h1>
     <div v-for="product in products">
-        <NuxtLink :to="`/products/${product.id}`">{{ product.title }}</NuxtLink>
+        <ProductCard :product="product" />
     </div>
 </template>
 
