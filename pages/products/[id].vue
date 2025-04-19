@@ -12,7 +12,7 @@
     const { id } = useRoute().params;
     const converted = Number(id);
 
-    const uri = "https://fakestoreapi.com/products/" + id;
+    const uri = "https://fakestoreapi.com/products/" + converted;
     const { data: product } = await useFetch(uri);
 
     definePageMeta({
