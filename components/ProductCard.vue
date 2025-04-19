@@ -1,25 +1,24 @@
 <template>
-      <UDrawer direction="right" inset>
-    <UButton label="Open" color="neutral" variant="subtle" trailing-icon="i-lucide-chevron-up" />
+  <UDrawer direction="right" inset>
+    <UButton label="Open" color="neutral" variant="subtle" trailing-icon="i-lucide-chevron-up"/>
 
     <template #content>
-      <Placeholder class="min-w-96 min-h-96 size-full m-4"/>
+      Card Content
     </template>
   </UDrawer>
-    <UCard variant="soft">
-        <template #header>
-            <NuxtLink :to="`/products/${product.id}`">{{ product.title }}</NuxtLink>
-        </template>
+  <UCard variant="soft">
+    <template #header>
+      <NuxtLink :to="`/products/${product.id}`">{{ product.title }}</NuxtLink>
+    </template>
 
-        
-      <Placeholder class="min-w-96 min-h-96 size-full m-4" />
+    [Content]
 
-        <template #footer>
-            <Placeholder class="h-8" />
-        </template>
-    </UCard>
+    <template #footer>
+      Footer Content
+    </template>
+  </UCard>
 </template>
 
 <script setup>
-const { product } = defineProps(['product']);
+const {product} = defineProps(['product']);
 </script>
