@@ -5,7 +5,7 @@
     <h1>
         {{  product.title }}
     </h1>
-    <NuxtImg :src="`${product.image}`" />
+    <NuxtImg :src="product.image" />
     <p>
         {{ product.rating.rate }} ({{ product.rating.count }})
     </p>
