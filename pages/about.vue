@@ -7,5 +7,10 @@
 </template>
 
 <script setup>
-const { data } = await useFetch('/api/ninja?name=SponsorMap');
+const { data } = await useFetch('/api/ninja?name=SponsorMap', {
+    method: 'POST',
+    body: {
+        age: 30
+    }
+});
 </script>
