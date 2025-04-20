@@ -7,5 +7,5 @@
 </template>
 
 <script setup>
-const { data } = await useFetch('/api/ninja');
+const { data } = await useFetch('/api/ninja?name=SponsorMap');
 </script>
