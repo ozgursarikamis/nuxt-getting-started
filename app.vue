@@ -3,6 +3,12 @@
 
   <button @click="increment()">+ Increment</button>
   <button @click="decrement()">- Decrement</button>
+
+  <hr>
+
+  <Component1 />
+  <hr>
+  <Component2 />
 </template>
 
 <script setup>
