@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import { NuxtPage } from '#components';
+
+</script>
+
 <template>
-  <NuxtWelcome />
+  <NuxtPage />
 </template>
