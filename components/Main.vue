@@ -1,11 +1,11 @@
-<script>
-import ParentComponent from './ParentComponent.vue';
+<script setup>
+import Parent from './two-way-binding/Parent.vue';
 
 </script>
 <template>
-<div>
-    <ParentComponent />
-</div>
+    <div>
+        Parent: <Parent />
+    </div>
 </template>
 
 <style scoped>
