@@ -4,6 +4,7 @@
 import { provide } from 'vue';
 
 const reactiveText = ref<string>('');
+const message = ref<string>('Default message value');
 
 provide('foo', reactiveText);
 
@@ -14,6 +15,6 @@ provide('foo', reactiveText);
         <UInput color="neutral" variant="subtle" placeholder="Search..." v-model="reactiveText" />
     </div>
     <div>
-        <child-component />
+        <child-component :message="message" />
     </div>
 </template>

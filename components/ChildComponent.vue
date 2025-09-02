@@ -1,8 +1,16 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const message = ref<string>(''); // Initialize with an empty string or a default value
+
+function handleMessageFromChildComponent(_message: string) {
+    message.value = _message;
+}
+</script>
 
 <template>
     <div>
-        Child Component
+        Child Component: {{ message }}
     </div>
-    <ChilderComponent />
+    <ChilderComponent @update="handleMessageFromChildComponent" />
 </template>
