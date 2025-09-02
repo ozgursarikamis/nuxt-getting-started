@@ -3,7 +3,6 @@ import type { RadioGroupItem, RadioGroupValue } from '@nuxt/ui'
 import type { CheckboxGroupItem } from '@nuxt/ui';
 
 const checkboxGroupItem = ref<CheckboxGroupItem[]>(['System', 'Light', 'Dark'])
-const checkboxValue = ref(true);
 
 const radioGroupItems = ref<RadioGroupItem[]>([
     {
@@ -23,14 +22,18 @@ const radioGroupItems = ref<RadioGroupItem[]>([
     }
 ]);
 
-const value = ref<RadioGroupValue>('system');
+const checkboxValue = ref(true);
+const checkboxGroupValue = ref<CheckboxGroupItem[]>(['System']);
+const radioGroupValue = ref<RadioGroupValue>('system');
 
 </script>
 <template>
     <div>
         <UCheckbox v-model="checkboxValue" label="Checkbox 1" />
-        <UCheckboxGroup indicator="end" variant="card" :default-value="['System']" :items="checkboxGroupItem" />
-        <URadioGroup v-model="value" :items="radioGroupItems" />
+        <UCheckboxGroup v-model="checkboxGroupValue" indicator="end" variant="card" :default-value="['System']" :items="checkboxGroupItem" />
+        <URadioGroup v-model="radioGroupValue" :items="radioGroupItems" />
+        
+        CB: {{  checkboxValue  }} RG: {{  radioGroupValue  }} CBG: {{  checkboxGroupValue  }}
     </div>
 </template>
 
