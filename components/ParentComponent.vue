@@ -3,12 +3,15 @@
 
 import { provide } from 'vue';
 
-provide('foo', 'bar 1234');
+const reactiveText = ref<string>('');
+
+provide('foo', reactiveText);
 
 </script>
 <template>
     <div>
         Parent Component
+        <UInput color="neutral" variant="subtle" placeholder="Search..." v-model="reactiveText" />
     </div>
     <div>
         <child-component />
