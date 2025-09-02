@@ -1,7 +1,10 @@
-<script></script>
+<script>
+import ParentComponent from './ParentComponent.vue';
+
+</script>
 <template>
 <div>
-    Main
+    <ParentComponent />
 </div>
 </template>
 
