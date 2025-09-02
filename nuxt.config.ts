@@ -1,11 +1,9 @@
-import { link } from "#build/ui";
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
   devServer: {
     port: 4200
-  },  devtools: { enabled: true },
+  }, devtools: { enabled: true },
   modules: [
     '@nuxt/eslint',
     '@nuxt/fonts',
@@ -18,7 +16,7 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
-        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Asimovian&display=swap'}
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&display=swap' }
       ]
     }
   }
