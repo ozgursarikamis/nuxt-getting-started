@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, reactive } from 'vue';
 
 const count = ref(0);
 const doubleCount = computed(() => count.value * 2);
@@ -25,6 +25,14 @@ function submit() {
     console.log('submitted', firstName.value, lastName.value);
 }
 
+// Watching an object's property's change:
+const user = reactive({ name: 'John', age: 30 });
+
+// watch a nested property:
+watch(() => user.age, (newAge, oldAge) => {
+    console.log(`Age changed: ${oldAge} → ${newAge}`)
+});
+
 </script>
 <template>
     <div>
@@ -42,6 +50,8 @@ function submit() {
         <hr>
         {{ firstName }} {{ lastName }}
     </div>
+    <hr>
+    <UInputNumber v-model="user.age" />
 </template>
 
 <style scoped></style>
