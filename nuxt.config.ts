@@ -1,3 +1,5 @@
+import { link } from "#build/ui";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2024-11-01',
@@ -13,4 +15,11 @@ export default defineNuxtConfig({
     '@nuxt/ui'
   ],
   css: ['~/assets/css/main.css'],
+  app: {
+    head: {
+      link: [
+        { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Asimovian&display=swap'}
+      ]
+    }
+  }
 })
