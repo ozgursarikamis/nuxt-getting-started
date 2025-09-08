@@ -28,10 +28,12 @@ export default defineNuxtConfig({
     },
     runtimeConfig: {
         // The private keys which are only available within server-side
-        GoogleMapsKey: process.env.GOOGLE_MAPS_KEY,
+        // GoogleMapsKey: process.env.GOOGLE_MAPS_KEY,
+
         // Keys within public, will be also exposed to the client-side
         public: {
-            apiBase: '/api'
+            apiBase: '/api',
+            GoogleMapsKey: process.env.GOOGLE_MAPS_KEY
         }
     }
 })
