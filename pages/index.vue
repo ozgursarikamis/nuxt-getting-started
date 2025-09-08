@@ -6,9 +6,9 @@
     <main>
       <Main/>
     </main>
-    <footer>
-      <Footer/>
-    </footer>
+<!--    <footer>-->
+<!--      <Footer/>-->
+<!--    </footer>-->
   </div>
 </template>
 

@@ -79,6 +79,9 @@ async function initGoogleMaps() {
       center, // starting position [lng, lat]
       zoom // starting zoom
     });
+
+    map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
+
   } else if (mapSelection.value === 'GoogleMaps') {
     map = new google.maps.Map(mapEl.value, {
       center,
@@ -87,8 +90,6 @@ async function initGoogleMaps() {
       mapTypeControl: false,
     })
   }
-
-  map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 }
 
 onMounted(() => {
@@ -108,7 +109,6 @@ onBeforeUnmount(() => {
 })
 
 function mapModelChanged() {
-  console.log('mapModelChanged', mapSelection.value);
   initGoogleMaps();
 }
 </script>
