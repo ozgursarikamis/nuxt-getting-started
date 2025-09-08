@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
     const { currencyApiKey } = useRuntimeConfig();
     const uri = `https://api.currencyapi.com/v3/latest?currencies=${code}&apikey=${currencyApiKey}`;
 
-    const { data } = await $fetch(uri);
+    const response = await $fetch<{ data: any }>(uri);
 
-    return data;
+    return response.data;
 });

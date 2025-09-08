@@ -5,12 +5,12 @@
     <template #content>
       Drawer content
     </template>
-  </UDrawer> -->
+</UDrawer> -->
   <UCard variant="soft" style="margin-bottom: 1rem;">
     <template #header>
       <NuxtLink :to="`/products/${product.id}`">{{ product.title }}</NuxtLink>
     </template>
-    <img :src="product.image" alt="product.title" style="max-height: 4rem;"/>
+    <img :src="product.image" alt="product.title" style="max-height: 4rem;" />
     <template #footer>
       Footer Content
     </template>
@@ -18,5 +18,5 @@
 </template>
 
 <script setup>
-const {product} = defineProps(['product']);
+const { product } = defineProps(['product']);
 </script>
