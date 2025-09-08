@@ -1,5 +1,22 @@
 <script setup lang="ts">
 import { onMounted, onBeforeUnmount, ref } from 'vue'
+import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+
+import type { RadioGroupItem, RadioGroupValue } from '@nuxt/ui'
+
+const mapTypes = ref<RadioGroupItem[]>([
+  {
+    label: 'MapLibre',
+    value: 'MapLibre',
+  },
+  {
+    label: 'Google Maps',
+    value: 'GoogleMaps'
+  }]
+);
+const mapSelection = ref<RadioGroupValue>('MapLibre')
+
 
 // Nuxt runtime config (key is defined in nuxt.config.ts -> runtimeConfig.public.GoogleMapsKey)
 const { public: { GoogleMapsKey } } = useRuntimeConfig()
@@ -32,7 +49,7 @@ function loadGoogleMaps(apiKey: string): Promise<void> {
 
   return new Promise((resolve, reject) => {
     const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places` // add libs as needed
+    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places&loading=async` // add libs as needed
     script.async = true
     script.defer = true
     script.setAttribute('data-google-maps-loader', 'true')
@@ -52,21 +69,26 @@ async function initGoogleMaps() {
 
   await loadGoogleMaps(GoogleMapsKey as unknown as string)
 
-  const center = { lat: 38.73061, lng: 35.50 } // New York City
-  map = new google.maps.Map(mapEl.value, {
-    center,
-    zoom: 6.9,
-    zoomControl: true,
-    mapTypeControl: true,
-    streetViewControl: true,
-    fullscreenControl: false,
-  })
+  const center = { lat: 38.73061, lng: 35.50 }
+  const zoom = 6.9;
 
-  // marker = new google.maps.Marker({
-  //   position: center,
-  //   map,
-  //   title: 'Hello Google Maps!',
-  // })
+  if (mapSelection.value === 'MapLibre') {
+    map = new maplibregl.Map({
+      container: 'map', // container id
+      style: 'https://demotiles.maplibre.org/globe.json', // style URL
+      center, // starting position [lng, lat]
+      zoom // starting zoom
+    });
+  } else if (mapSelection.value === 'GoogleMaps') {
+    map = new google.maps.Map(mapEl.value, {
+      center,
+      zoom,
+      fullscreenControl: false,
+      mapTypeControl: false,
+    })
+  }
+
+  map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 }
 
 onMounted(() => {
@@ -84,10 +106,17 @@ onBeforeUnmount(() => {
   marker = null
   map = null
 })
+
+function mapModelChanged() {
+  console.log('mapModelChanged', mapSelection.value);
+  initGoogleMaps();
+}
 </script>
 
 <template>
-  <div id="map" ref="mapEl" />
+
+  <URadioGroup @change="mapModelChanged(mapSelection)" v-model="mapSelection" :items="mapTypes"/>
+  <div id="map" ref="mapEl"/>
 </template>
 
 <style scoped>
