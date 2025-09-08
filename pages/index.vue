@@ -18,7 +18,7 @@ footer {
   padding: 1rem;
   background-color: #eee;
   text-align: center;
-  border-top: 1px solid salmon;
+  //border-top: 1px solid salmon;
   position: absolute;
   bottom: 0;
   width: 100%;

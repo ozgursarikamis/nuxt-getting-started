@@ -1,6 +1,8 @@
-<script></script>
+<script setup>
+
+</script>
 <template>
-    <div style="border-bottom: 1px solid salmon; padding: .5rem;">
-        <span style="color: red;">Nuxt / UI - Sandbox</span>
+    <div style="padding: .5rem;">
+        <span style="color: red;">Nuxt / UI - Sandbox / Google Maps</span>
     </div>
 </template>

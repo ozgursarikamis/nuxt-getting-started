@@ -1,14 +1,14 @@
 <script setup lang="ts">
 
-import Map from "~/pages/Map.vue";
-
 </script>
+
 <template>
-  <Map />
+  <div id="map"></div>
 </template>
 
 <style scoped>
-* {
-    padding: 1rem;
+#map {
+  width: 100%;
+  height: 100vh;
 }
 </style>
