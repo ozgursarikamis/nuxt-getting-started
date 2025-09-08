@@ -1,134 +1,101 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from 'vue'
+import { onMounted, onBeforeUnmount, ref } from 'vue';
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
-import type { RadioGroupItem, RadioGroupValue } from '@nuxt/ui'
+const mapEl = ref<HTMLElement | null>(null);
+let map: maplibregl.Map | null = null;
 
-const mapTypes = ref<RadioGroupItem[]>([
-  {
-    label: 'MapLibre',
-    value: 'MapLibre',
-  },
-  {
-    label: 'Google Maps',
-    value: 'GoogleMaps'
-  }]
-);
-const mapSelection = ref<RadioGroupValue>('GoogleMaps')
+const { public: { GoogleMapsKey } } = useRuntimeConfig();
 
+function initMapLibreWithGoogleTiles() {
+  if (!mapEl.value) return;
 
-// Nuxt runtime config (key is defined in nuxt.config.ts -> runtimeConfig.public.GoogleMapsKey)
-const { public: { GoogleMapsKey } } = useRuntimeConfig()
-
-// Refs
-const mapEl = ref<HTMLElement | null>(null)
-let map: any = null
-let marker: any = null
-declare const google: any
-
-function loadGoogleMaps(apiKey: string): Promise<void> {
-  if (typeof window === 'undefined') return Promise.resolve()
-
-  // If already loaded, resolve immediately
-  if (window.google && window.google.maps) return Promise.resolve()
-
-  // If a loader script is already in the DOM, wait for it to load
-  const existing = document.querySelector('script[data-google-maps-loader]') as HTMLScriptElement | null
-  if (existing) {
-    return new Promise((resolve, reject) => {
-      if ((window as any)._googleMapsLoaded) return resolve()
-      existing.addEventListener('load', () => resolve())
-      existing.addEventListener('error', () => reject(new Error('Failed to load Google Maps script')))
-    })
-  }
-
-  return new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(apiKey)}&libraries=places&loading=async` // add libs as needed
-    script.async = true
-    script.defer = true
-    script.setAttribute('data-google-maps-loader', 'true')
-
-    script.addEventListener('load', () => {
-      ;(window as any)._googleMapsLoaded = true
-      resolve()
-    })
-    script.addEventListener('error', () => reject(new Error('Failed to load Google Maps script')))
-
-    document.head.appendChild(script)
-  })
-}
-
-async function initMaps() {
-  if (!mapEl.value) return
-
-  await loadGoogleMaps(GoogleMapsKey as unknown as string)
-
-  const center = { lat: 38.73061, lng: 35.50 }
+  const center = { lng: 35.5, lat: 38.73061 };
   const zoom = 6.9;
 
-  if (mapSelection.value === 'MapLibre') {
-    map = new maplibregl.Map({
-      container: 'map', // container id
-      style: 'https://demotiles.maplibre.org/globe.json', // style URL
-      center, // starting position [lng, lat]
-      zoom // starting zoom
-    });
-  } else if (mapSelection.value === 'GoogleMaps') {
-    map = new google.maps.Map(mapEl.value, {
-      center,
-      zoom,
-      mapTypeControl: true,
-      disableDefaultUI: true
-    })
-  }
+  // Initialize the MapLibre map
+  map = new maplibregl.Map({
+    container: mapEl.value,
+    center,
+    zoom,
+    style: {
+      version: 8,
+      sources: {},
+      layers: []
+    }
+  });
 
-  map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
+  // Wait for the style to load before adding sources and layers
+  map.on('style.load', () => {
+    // Add Google Maps raster tiles as the base map
+    map?.addSource('google-maps', {
+      type: 'raster',
+      tiles: [
+        `https://mt0.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&key=${GoogleMapsKey}`
+      ],
+      tileSize: 256
+    });
+
+    map?.addLayer({
+      id: 'google-maps-layer',
+      type: 'raster',
+      source: 'google-maps'
+    });
+
+    // (Optional) Add XYZ Tile Layer
+    addXYZTilesToMap(map);
+  });
+
+  return map;
+}
+
+// Function to overlay XYZ tiles on top of the map
+function addXYZTilesToMap(map: maplibregl.Map | null) {
+  const xyzTileUrl = 'http://localhost:5000/api/polygon/local-authorities/{z}/{x}/{y}.pbf';
+
+  map?.addSource('xyz-tiles', {
+    type: 'vector',
+    tiles: [xyzTileUrl],
+    minzoom: 0,
+    maxzoom: 14, // Adjust based on your tile data
+  });
+
+  map?.addLayer({
+    id: 'xyz-layer',
+    type: 'fill', // Or 'line', 'symbol', etc., depending on your layer type
+    source: 'xyz-tiles',
+    'source-layer': 'source_layer_local_auth_districts', // Replace with actual layer name in vector tile data
+    paint: {
+      'fill-color': '#3887be',
+      'fill-opacity': 0.5,
+    },
+  });
 }
 
 onMounted(() => {
-  // Avoid SSR issues and only run on client
   if (GoogleMapsKey) {
-    initMaps()
+    map = initMapLibreWithGoogleTiles();
   } else {
-    // eslint-disable-next-line no-console
-    console.warn('Google Maps API key missing. Set GOOGLE_MAPS_KEY in .env')
+    console.warn('Google Maps API key missing. Set GOOGLE_MAPS_KEY in .env');
   }
-})
+});
 
 onBeforeUnmount(() => {
-  // Clean up references (Google Maps cleans up its own listeners on GC)
-  marker = null
-  map = null
-})
-
-function mapModelChanged() {
-  console.log('mapModelChanged', mapSelection.value);
-  initMaps();
-}
+  if (map) {
+    map.remove();
+    map = null;
+  }
+});
 </script>
 
 <template>
-
-  <URadioGroup @change="mapModelChanged" v-model="mapSelection" :items="mapTypes"/>
-  <div id="map" ref="mapEl"/>
+  <div id="map" ref="mapEl"></div>
 </template>
 
 <style scoped>
 #map {
   width: 100%;
   height: 100vh;
-}
-
-/***** The styles below are kept minimal for the demo *****/
-:global(body) {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.place-picker-container {
-  padding: 20px;
 }
 </style>
