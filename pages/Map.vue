@@ -1,5 +1,8 @@
 <script setup lang="ts">
+const runtimeConfig = useRuntimeConfig();
 
+console.log(runtimeConfig.GoogleMapsKey);
+console.log(runtimeConfig.public.apiBase);
 </script>
 
 <template>
