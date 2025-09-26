@@ -1,15 +1,11 @@
+<script setup lang="ts">
+import Map from '~/components/Map.vue';
+
+</script>
+
 <template>
-  <div>
-    <header>
-      <Header/>
-    </header>
-    <main>
-      <Main/>
-    </main>
-    <footer>
-      <Footer/>
-    </footer>
-  </div>
+  <Header />
+  <Map class="h-full w-full" />
 </template>
 
 <style>
@@ -18,7 +14,6 @@ footer {
   padding: 1rem;
   background-color: #eee;
   text-align: center;
-  border-top: 1px solid salmon;
   position: absolute;
   bottom: 0;
   width: 100%;
