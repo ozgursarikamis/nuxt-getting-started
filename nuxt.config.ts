@@ -15,6 +15,13 @@ export default defineNuxtConfig({
         '@nuxt/scripts',
         '@nuxt/ui'
     ],
+    runtimeConfig: {
+        public: {
+            keycloakUrl: process.env.NUXT_PUBLIC_KEYCLOAK_URL,
+            keycloakRealm: process.env.NUXT_PUBLIC_KEYCLOAK_REALM,
+            keycloakClient: process.env.NUXT_PUBLIC_KEYCLOAK_CLIENT
+        }
+    },
     css: ['~/assets/css/main.css'],
     app: {
         head: {
