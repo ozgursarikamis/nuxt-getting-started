@@ -17,11 +17,15 @@ onMounted(async () => {
 })
 
 const login = () => {
-  $keycloak.login()
+  $keycloak.login({
+    redirectUri: window.location.origin + '/callback'
+  })
 }
 
 const logout = () => {
-  $keycloak.logout()
+  $keycloak.logout({
+    redirectUri: window.location.origin
+  })
 }
 </script>
 
