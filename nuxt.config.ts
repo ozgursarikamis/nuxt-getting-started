@@ -3,6 +3,15 @@ import { link } from "#build/ui";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
     compatibilityDate: '2024-11-01',
+    vite: {
+        optimizeDeps: {
+            include: [
+                '@vue/devtools-core',
+                '@vue/devtools-kit',
+                'maplibre-gl'
+            ]
+        }
+    },
     devServer: {
         port: 4200
     },
